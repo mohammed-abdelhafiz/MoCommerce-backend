@@ -80,5 +80,10 @@ export const getProductsByCategory = async ({
   limit: number;
 }) => {
   const skip = (page - 1) * limit;
-  return await Product.find({ category }).skip(skip).limit(limit);
+  const [products, total] = await Promise.all([
+    Product.find({ category }).skip(skip).limit(limit),
+    Product.countDocuments({ category }),
+  ]);
+  return { products, total };
 };
+

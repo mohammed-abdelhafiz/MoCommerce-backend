@@ -137,14 +137,24 @@ export const getRecommendedProducts = async (req: Request, res: Response) => {
 export const getProductsByCategory = async (req: Request, res: Response) => {
   const category = req.params.category as string;
   const page = Math.max(1, Number(req.query.page) || 1);
-  const limit = Math.max(1, Number(req.query.limit) || 10);
-  const products = await productsService.getProductsByCategory({
+  const limit = Math.max(1, Number(req.query.limit) || 8);
+  const { products, total } = await productsService.getProductsByCategory({
     category,
     page,
     limit,
   });
+
+  const totalPages = Math.ceil(total / limit);
+
   res.status(200).json({
     message: "Products fetched successfully",
     products,
+    pagination: {
+      total,
+      totalPages,
+      currentPage: page,
+      limit,
+    },
   });
 };
+

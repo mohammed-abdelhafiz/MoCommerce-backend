@@ -6,8 +6,6 @@ import Coupon from "../coupons/Coupon.model";
 import Order from "./Order.model";
 import Product from "../products/Product.model";
 import { SUPPORTED_COUNTRIES } from "./payment.constants";
-import * as cartService from "../cart/cart.service";
-import { Types } from "mongoose";
 
 export const createCheckoutSession = async ({
   items,
@@ -18,7 +16,6 @@ export const createCheckoutSession = async ({
   const coupon = couponCode ? await validateCoupon(couponCode, userId) : null;
 
   const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
     line_items: populatedProducts.map((item) => ({
       price_data: {
         currency: "usd",
