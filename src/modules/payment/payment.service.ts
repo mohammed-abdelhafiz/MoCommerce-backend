@@ -33,7 +33,7 @@ export const createCheckoutSession = async ({
       allowed_countries: [...SUPPORTED_COUNTRIES],
     },
     success_url: `${process.env.CLIENT_URL}/success-checkout?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.CLIENT_URL}/cart`,//Bug here
+    cancel_url: `${process.env.CLIENT_URL}/cart`,
     metadata: {
       userId,
       couponCode: couponCode || "",
